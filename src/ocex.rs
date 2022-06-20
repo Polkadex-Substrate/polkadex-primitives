@@ -4,6 +4,8 @@ use frame_support::traits::Get;
 use frame_support::BoundedVec;
 use scale_info::TypeInfo;
 use sp_std::collections::btree_map::BTreeMap;
+#[cfg(feature = "std")]
+use serde::{Deserialize, Serialize};
 
 use crate::fees::FeeConfig;
 use sp_runtime::traits::Zero;

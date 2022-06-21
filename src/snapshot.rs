@@ -17,6 +17,14 @@ impl Get<u32> for AccountInfoDumpLimit {
     }
 }
 
+/// Provides maximum number of assets possible in a single snapshot
+pub struct AssetsLimit;
+impl Get<u32> for AssetsLimit {
+    fn get() -> u32 {
+        1000
+    }
+}
+
 #[derive(Clone, Encode, Decode, TypeInfo, Debug)]
 // #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct EnclaveAccountInfoDump<AccountId: Ord, Balance: Zero + Clone, ProxyLimit: Get<u32>> {
@@ -36,7 +44,8 @@ pub struct EnclaveSnapshot<Account, Balance: Zero + Clone, WithdrawalLimit: Get<
     pub merkle_root: H256,
     /// Withdrawals
     pub withdrawals: BoundedVec<Withdrawal<Account, Balance>, WithdrawalLimit>,
-    // TODO: Add base and quote fees collected by the exchange.
+    /// Fees collected by the operator
+    pub fees: BoundedVec<(AssetId,Balance),AssetsLimit>
 }
 
 impl<Account, Balance: Zero + Clone, WithdrawalLimit: Get<u32>> PartialEq

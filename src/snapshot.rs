@@ -34,7 +34,7 @@ pub struct Fees<Balance: Zero + Clone>{
 
 #[derive(Clone, Encode, Decode, TypeInfo, Debug)]
 // #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-#[scale_info(skip_type_params(SnapshotAccLimit, WithdrawalLimit))]
+#[scale_info(skip_type_params(SnapshotAccLimit, WithdrawalLimit,AssetsLimit ))]
 pub struct EnclaveSnapshot<Account, Balance: Zero + Clone, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>> {
     /// Serial number of snapshot.
     pub snapshot_number: u32,

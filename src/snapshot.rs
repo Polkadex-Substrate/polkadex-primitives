@@ -8,7 +8,7 @@ use sp_std::collections::btree_map::BTreeMap;
 use codec::{Decode, Encode};
 use frame_support::traits::Get;
 use scale_info::TypeInfo;
-use crate::AssetId;
+use crate::{AssetId, Balance};
 
 /// Provides maximum number of accounts possible in enclave data dump
 pub struct AccountInfoDumpLimit;
@@ -36,6 +36,12 @@ pub struct EnclaveAccountInfoDump<AccountId: Ord, Balance: Zero + Clone, ProxyLi
 }
 
 #[derive(Clone, Encode, Decode, TypeInfo, Debug)]
+pub struct Fees<Balance: Zero + Clone>{
+    pub asset: AssetId,
+    pub amount: Balance
+}
+
+#[derive(Clone, Encode, Decode, TypeInfo, Debug)]
 // #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 #[scale_info(skip_type_params(SnapshotAccLimit, WithdrawalLimit))]
 pub struct EnclaveSnapshot<Account, Balance: Zero + Clone, WithdrawalLimit: Get<u32>> {
@@ -46,7 +52,7 @@ pub struct EnclaveSnapshot<Account, Balance: Zero + Clone, WithdrawalLimit: Get<
     /// Withdrawals
     pub withdrawals: BoundedVec<Withdrawal<Account, Balance>, WithdrawalLimit>,
     /// Fees collected by the operator
-    pub fees: BoundedVec<(AssetId,Balance),AssetsLimit>
+    pub fees: BoundedVec<Fees<Balance>,AssetsLimit>
 }
 
 impl<Account, Balance: Zero + Clone, WithdrawalLimit: Get<u32>> PartialEq

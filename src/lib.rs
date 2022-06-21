@@ -95,7 +95,7 @@ impl Get<u32> for ProxyLimit {
 pub struct AssetsLimit;
 impl Get<u32> for AssetsLimit {
     fn get() -> u32 {
-        50
+        1000
     }
 }
 

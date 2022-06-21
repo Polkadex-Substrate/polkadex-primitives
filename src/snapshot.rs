@@ -17,14 +17,6 @@ impl Get<u32> for AccountInfoDumpLimit {
     }
 }
 
-/// Provides maximum number of assets possible in a single snapshot
-pub struct AssetsLimit;
-impl Get<u32> for AssetsLimit {
-    fn get() -> u32 {
-        1000
-    }
-}
-
 #[derive(Clone, Encode, Decode, TypeInfo, Debug)]
 // #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct EnclaveAccountInfoDump<AccountId: Ord, Balance: Zero + Clone, ProxyLimit: Get<u32>> {
@@ -43,7 +35,7 @@ pub struct Fees<Balance: Zero + Clone>{
 #[derive(Clone, Encode, Decode, TypeInfo, Debug)]
 // #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 #[scale_info(skip_type_params(SnapshotAccLimit, WithdrawalLimit))]
-pub struct EnclaveSnapshot<Account, Balance: Zero + Clone, WithdrawalLimit: Get<u32>> {
+pub struct EnclaveSnapshot<Account, Balance: Zero + Clone, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>> {
     /// Serial number of snapshot.
     pub snapshot_number: u32,
     /// Hash of the balance snapshot dump made by enclave. ( dump contains all the accounts in enclave )
@@ -54,8 +46,8 @@ pub struct EnclaveSnapshot<Account, Balance: Zero + Clone, WithdrawalLimit: Get<
     pub fees: BoundedVec<Fees<Balance>,AssetsLimit>
 }
 
-impl<Account, Balance: Zero + Clone, WithdrawalLimit: Get<u32>> PartialEq
-    for EnclaveSnapshot<Account, Balance, WithdrawalLimit>
+impl<Account, Balance: Zero + Clone, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>> PartialEq
+    for EnclaveSnapshot<Account, Balance, WithdrawalLimit,AssetsLimit>
 {
     fn eq(&self, other: &Self) -> bool {
         self.snapshot_number == other.snapshot_number

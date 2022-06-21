@@ -15,13 +15,14 @@ pub enum EgressMessages<
     Balance: Zero + Clone,
     ProxyLimit: Get<u32>,
     WithdrawalLimit: Get<u32>,
+    AssetsLimit: Get<u32>,
 > {
     EnclaveAccountDump(
         EnclaveAccountInfoDump<AccountId, Balance, ProxyLimit>,
         Signature,
     ),
     EnclaveSnapshot(
-        EnclaveSnapshot<AccountId, Balance, WithdrawalLimit>,
+        EnclaveSnapshot<AccountId, Balance, WithdrawalLimit, AssetsLimit>,
         Signature,
     ),
     RegisterEnclave(BoundedVec<u8, UnpaddedReportSize>),

@@ -9,12 +9,21 @@ use codec::{Decode, Encode};
 use scale_info::TypeInfo;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
+use crate::AssetId;
 
 /// Provides maximum number of accounts possible in enclave data dump
 pub struct AccountInfoDumpLimit;
 impl Get<u32> for AccountInfoDumpLimit {
     fn get() -> u32 {
         10000000
+    }
+}
+
+/// Provides maximum number of assets possible in a single snapshot
+pub struct AssetsLimit;
+impl Get<u32> for AssetsLimit {
+    fn get() -> u32 {
+        1000
     }
 }
 
@@ -37,7 +46,8 @@ pub struct EnclaveSnapshot<Account, Balance: Zero + Clone, WithdrawalLimit: Get<
     pub merkle_root: H256,
     /// Withdrawals
     pub withdrawals: BoundedVec<Withdrawal<Account, Balance>, WithdrawalLimit>,
-    // TODO: Add base and quote fees collected by the exchange.
+    /// Fees collected by the operator
+    pub fees: BoundedVec<(AssetId,Balance),AssetsLimit>
 }
 
 impl<Account, Balance: Zero + Clone, WithdrawalLimit: Get<u32>> PartialEq

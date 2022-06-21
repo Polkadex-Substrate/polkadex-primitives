@@ -35,7 +35,7 @@ pub struct EnclaveAccountInfoDump<AccountId: Ord, Balance: Zero + Clone, ProxyLi
     pub accounts: BTreeMap<AccountId, AccountInfo<AccountId, Balance, ProxyLimit>>,
 }
 
-#[derive(Clone, Encode, Decode, TypeInfo, Debug)]
+#[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
 pub struct Fees<Balance: Zero + Clone>{
     pub asset: AssetId,
     pub amount: Balance

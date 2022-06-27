@@ -21,12 +21,12 @@ pub enum EgressMessages<
 > {
     EnclaveAccountDump(
         EnclaveAccountInfoDump<AccountId, Balance, ProxyLimit>,
-        Signature,
-        AccountId
+        Signature
     ),
     EnclaveSnapshot(
         EnclaveSnapshot<AccountId, Balance, WithdrawalLimit, AssetsLimit>,
         Signature,
+        AccountId
     ),
     RegisterEnclave(BoundedVec<u8, UnpaddedReportSize>),
 }

@@ -22,6 +22,7 @@ pub enum EgressMessages<
     EnclaveAccountDump(
         EnclaveAccountInfoDump<AccountId, Balance, ProxyLimit>,
         Signature,
+        AccountId
     ),
     EnclaveSnapshot(
         EnclaveSnapshot<AccountId, Balance, WithdrawalLimit, AssetsLimit>,

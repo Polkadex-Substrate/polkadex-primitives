@@ -11,23 +11,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Encode, Decode, TypeInfo, Debug)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-#[scale_info(skip_type_params(SnapshotAccLimit, WithdrawalLimit, AssetsLimit))]
-pub enum EgressMessages<
-    AccountId: Ord,
-    Balance: Zero + Clone,
-    ProxyLimit: Get<u32>,
-    WithdrawalLimit: Get<u32>,
-    AssetsLimit: Get<u32>,
-> {
-    EnclaveAccountDump(
-        EnclaveAccountInfoDump<AccountId, Balance, ProxyLimit>,
-        Signature
-    ),
-    EnclaveSnapshot(
-        EnclaveSnapshot<AccountId, Balance, WithdrawalLimit, AssetsLimit>,
-        Signature,
-        AccountId
-    ),
+pub enum EgressMessages {
     RegisterEnclave(BoundedVec<u8, UnpaddedReportSize>),
 }
 

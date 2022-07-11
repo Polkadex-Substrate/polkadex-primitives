@@ -20,6 +20,7 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
 pub mod assets;
+pub mod deposit;
 pub mod egress;
 pub mod fees;
 pub mod ingress;
@@ -113,5 +114,13 @@ pub struct WithdrawalLimit;
 impl Get<u32> for WithdrawalLimit {
     fn get() -> u32 {
         500
+    }
+}
+#[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+pub struct DepositOverflowLimit;
+impl Get<u32> for DepositOverflowLimit {
+    fn get() -> u32 {
+        100
     }
 }

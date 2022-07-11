@@ -1,16 +1,17 @@
+use crate::deposit::DepositOverflow;
 use crate::ocex::AccountInfo;
 use crate::withdrawal::Withdrawal;
 use frame_support::BoundedVec;
 use sp_core::H256;
-use sp_runtime::traits::{ Zero};
+use sp_runtime::traits::Zero;
 use std::collections::BTreeMap;
 
+use crate::AssetId;
 use codec::{Decode, Encode, MaxEncodedLen};
 use frame_support::pallet_prelude::Get;
 use scale_info::TypeInfo;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
-use crate::AssetId;
 
 /// Provides maximum number of accounts possible in enclave data dump
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
@@ -32,15 +33,26 @@ pub struct EnclaveAccountInfoDump<AccountId: Ord, Balance: Zero + Clone, ProxyLi
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-pub struct Fees<Balance: Zero + Clone>{
+pub struct Fees<Balance: Zero + Clone> {
     pub asset: AssetId,
-    pub amount: Balance
+    pub amount: Balance,
 }
 
 #[derive(Clone, Encode, Decode, TypeInfo, Debug)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-#[scale_info(skip_type_params(SnapshotAccLimit, WithdrawalLimit,AssetsLimit ))]
-pub struct EnclaveSnapshot<Account, Balance: Zero + Clone, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>> {
+#[scale_info(skip_type_params(
+    SnapshotAccLimit,
+    WithdrawalLimit,
+    DepositOverflowLimit,
+    AssetsLimit
+))]
+pub struct EnclaveSnapshot<
+    Account,
+    Balance: Zero + Clone,
+    WithdrawalLimit: Get<u32>,
+    DepositOverflowLimit: Get<u32>,
+    AssetsLimit: Get<u32>,
+> {
     /// Serial number of snapshot.
     pub snapshot_number: u32,
     /// Hash of the balance snapshot dump made by enclave. ( dump contains all the accounts in enclave )
@@ -48,11 +60,19 @@ pub struct EnclaveSnapshot<Account, Balance: Zero + Clone, WithdrawalLimit: Get<
     /// Withdrawals
     pub withdrawals: BoundedVec<Withdrawal<Account, Balance>, WithdrawalLimit>,
     /// Fees collected by the operator
-    pub fees: BoundedVec<Fees<Balance>,AssetsLimit>
+    pub fees: BoundedVec<Fees<Balance>, AssetsLimit>,
+    /// Deposit that overflowed
+    pub deposit_overflow: BoundedVec<DepositOverflow<Account, Balance>, DepositOverflowLimit>,
 }
 
-impl<Account, Balance: Zero + Clone, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>> PartialEq
-    for EnclaveSnapshot<Account, Balance, WithdrawalLimit,AssetsLimit>
+impl<
+        Account,
+        Balance: Zero + Clone,
+        WithdrawalLimit: Get<u32>,
+        DepositOverflowLimit: Get<u32>,
+        AssetsLimit: Get<u32>,
+    > PartialEq
+    for EnclaveSnapshot<Account, Balance, WithdrawalLimit, DepositOverflowLimit, AssetsLimit>
 {
     fn eq(&self, other: &Self) -> bool {
         self.snapshot_number == other.snapshot_number

@@ -12,3 +12,5 @@ pub struct Withdrawal<AccountId, Balance> {
     pub amount: Balance,
     pub asset: AssetId,
 }
+
+unsafe impl<AccountId, Balance> Sync for Withdrawal<AccountId, Balance> {}

@@ -16,12 +16,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-use std::fmt::{Display, Formatter};
 use codec::{Decode, Encode, MaxEncodedLen};
 use scale_info::TypeInfo;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
 use sp_core::RuntimeDebug;
+use std::fmt::{Display, Formatter};
 
 /// Enumerated asset on chain
 #[derive(
@@ -36,7 +36,7 @@ use sp_core::RuntimeDebug;
     PartialOrd,
     RuntimeDebug,
     TypeInfo,
-    MaxEncodedLen
+    MaxEncodedLen,
 )]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub enum AssetId {
@@ -51,8 +51,8 @@ pub enum AssetId {
 impl Display for AssetId {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            AssetId::polkadex => write!(f,"PDEX"),
-            AssetId::asset(id) => write!(f,"{:?}",id),
+            AssetId::polkadex => write!(f, "PDEX"),
+            AssetId::asset(id) => write!(f, "{:?}", id),
         }
     }
 }

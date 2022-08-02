@@ -4,7 +4,7 @@ use scale_info::TypeInfo;
 use serde::{Deserialize, Serialize};
 use sp_runtime::traits::Zero;
 
-#[derive(Copy, Clone, Encode, Decode, PartialEq, Debug, TypeInfo)]
+#[derive(Copy, Clone, Encode, Decode, PartialEq, Debug, TypeInfo, Eq)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct FeeConfig<Balance: Zero> {
     pub(crate) maker_fraction: Balance,

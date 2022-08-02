@@ -9,7 +9,7 @@ use scale_info::TypeInfo;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Encode, Decode, TypeInfo, Debug, PartialEq)]
+#[derive(Clone, Encode, Decode, TypeInfo, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub enum EgressMessages {
     RegisterEnclave(BoundedVec<u8, UnpaddedReportSize>),

@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 use crate::fees::FeeConfig;
 use sp_runtime::traits::Zero;
 
-#[derive(Clone, Encode, Decode, TypeInfo, Debug)]
+#[derive(Clone, Encode, Decode, TypeInfo, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 #[scale_info(skip_type_params(ProxyLimit))]
 pub struct AccountInfo<Account, Balance: Zero + Clone, ProxyLimit: Get<u32>> {

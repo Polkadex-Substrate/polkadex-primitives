@@ -60,36 +60,6 @@ impl Serialize for AssetId {
     }
 }
 
-/*impl<'de> Deserialize<'de> for AssetId {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-        where
-            D: Deserializer<'de>,
-    {
-        struct AssetIdVisitor;
-
-        impl<'de> Visitor<'de> for AssetVisitor {
-
-            type Value = AssetId;
-
-            fn expecting(&self, formatter: &mut Formatter) -> std::fmt::Result {
-                formatter.write_str("an integer between 0 and 2^127")
-            }
-
-            fn visit_enum<A>(self, data: A) -> Result<Self::Value, serde::de::Error>
-                where
-            A: EnumAccess<'de>
-            {
-                match data.variant() {
-                    AssetId::asset(n) =>
-                }
-            }
-        }
-
-        const VARIANTS: &'static [&'static str] = &["asset", "polkadex"];
-        deserializer.deserialize_enum("AssetId", VARIANTS, AssetVisitor)
-    }
-}
-*/
 impl Display for AssetId {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {

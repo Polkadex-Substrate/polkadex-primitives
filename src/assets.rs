@@ -18,12 +18,12 @@
 
 use codec::{Decode, Encode, MaxEncodedLen};
 use scale_info::TypeInfo;
+use serde::de::{EnumAccess, Error, MapAccess, SeqAccess, Visitor};
+use serde::{de, Deserializer, Serializer};
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
 use sp_core::RuntimeDebug;
 use std::fmt::{Display, Formatter};
-use serde::{de, Deserializer, Serializer};
-use serde::de::{EnumAccess, Error, MapAccess, SeqAccess, Visitor};
 
 /// Enumerated asset on chain
 #[derive(
@@ -52,10 +52,13 @@ pub enum AssetId {
 }
 
 impl Serialize for AssetId {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error> where S: Serializer {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
         match *self {
             AssetId::asset(i) => serializer.serialize_u128(i),
-            AssetId::polkadex => serializer.serialize_unit_variant("polkadex", 1, "polkadex"),
+            AssetId::polkadex => serializer.serialize_unit_variant("asset_id", 1, "polkadex"),
         }
     }
 }

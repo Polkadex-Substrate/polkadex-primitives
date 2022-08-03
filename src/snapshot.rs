@@ -4,6 +4,7 @@ use frame_support::BoundedVec;
 use sp_core::H256;
 use sp_runtime::traits::Zero;
 use std::collections::BTreeMap;
+use frame_support::storage::bounded_btree_map::BoundedBTreeMap;
 
 use crate::AssetId;
 use codec::{Decode, Encode, MaxEncodedLen};
@@ -41,7 +42,7 @@ pub struct Fees<Balance: Zero + Clone> {
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 #[scale_info(skip_type_params(SnapshotAccLimit, WithdrawalLimit, AssetsLimit))]
 pub struct EnclaveSnapshot<
-    Account,
+    Account: std::cmp::Ord,
     Balance: Zero + Clone,
     WithdrawalLimit: Get<u32>,
     AssetsLimit: Get<u32>,
@@ -51,12 +52,12 @@ pub struct EnclaveSnapshot<
     /// Hash of the balance snapshot dump made by enclave. ( dump contains all the accounts in enclave )
     pub merkle_root: H256,
     /// Withdrawals
-    pub withdrawals: BoundedVec<Withdrawal<Account, Balance>, WithdrawalLimit>,
+    pub withdrawals: BTreeMap<Account, BoundedVec<Withdrawal<Account, Balance>, WithdrawalLimit>>,
     /// Fees collected by the operator
     pub fees: BoundedVec<Fees<Balance>, AssetsLimit>,
 }
 
-impl<Account, Balance: Zero + Clone, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>> PartialEq
+impl<Account: std::cmp::Ord, Balance: Zero + Clone, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>> PartialEq
     for EnclaveSnapshot<Account, Balance, WithdrawalLimit, AssetsLimit>
 {
     fn eq(&self, other: &Self) -> bool {

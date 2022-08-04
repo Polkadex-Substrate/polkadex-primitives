@@ -18,6 +18,8 @@
 
 use codec::{Decode, Encode, MaxEncodedLen};
 use scale_info::TypeInfo;
+use serde::de::{EnumAccess, Error, MapAccess, SeqAccess, Visitor};
+use serde::{de, Deserializer, Serializer};
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
 use sp_core::RuntimeDebug;
@@ -38,14 +40,27 @@ use std::fmt::{Display, Formatter};
     TypeInfo,
     MaxEncodedLen,
 )]
-#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "std", derive(Deserialize))]
+#[serde(tag = "asset_id")]
 pub enum AssetId {
-    /// PDEX the native currency of the chain
-    polkadex,
     /// Generic enumerated assed
     /// Range 0 - 0x00000000FFFFFFFF (2^32)-1 is reserved for protected tokens
     /// the values under 1000 are used for ISO 4217 Numeric Curency codes
     asset(u128),
+    /// PDEX the native currency of the chain
+    polkadex,
+}
+
+impl Serialize for AssetId {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        match *self {
+            AssetId::asset(i) => serializer.serialize_u128(i),
+            AssetId::polkadex => serializer.serialize_unit_variant("asset_id", 1, "polkadex"),
+        }
+    }
 }
 
 impl Display for AssetId {

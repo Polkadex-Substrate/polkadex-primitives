@@ -20,11 +20,14 @@
 
 use codec::{Decode, Encode, MaxEncodedLen};
 use scale_info::TypeInfo;
+#[cfg(feature = "std")]
 use serde::de::{EnumAccess, Error, MapAccess, SeqAccess, Visitor};
+#[cfg(feature = "std")]
 use serde::{de, Deserializer, Serializer};
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
 use sp_core::RuntimeDebug;
+#[cfg(feature = "std")]
 use std::fmt::{Display, Formatter};
 
 /// Enumerated asset on chain

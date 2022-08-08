@@ -66,6 +66,7 @@ impl Serialize for AssetId {
     }
 }
 
+#[cfg(feature = "std")]
 impl Display for AssetId {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {

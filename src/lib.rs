@@ -80,6 +80,8 @@ pub type Block = generic::Block<Header, OpaqueExtrinsic>;
 /// Block ID.
 pub type BlockId = generic::BlockId<Block>;
 
+pub const WITHDRAWAL_MAX_LIMIT: usize = 1000;
+
 // TODO: Figure out the actual bound given below
 #[derive(Debug, Clone, Copy, PartialEq)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]

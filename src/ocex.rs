@@ -1,4 +1,4 @@
-use crate::assets::AssetId;
+use crate::assets::{AssetId, HashAssetId};
 use codec::{Decode, Encode, MaxEncodedLen};
 use frame_support::traits::Get;
 use frame_support::BoundedVec;
@@ -18,7 +18,7 @@ pub struct AccountInfo<Account, Balance: Zero + Clone, ProxyLimit: Get<u32>> {
     pub main_account: Account,
     pub proxies: BoundedVec<Account, ProxyLimit>,
     pub nonce: u32,
-    pub balances: BTreeMap<AssetId, (Balance, Balance)>,
+    pub balances: BTreeMap<HashAssetId, (Balance, Balance)>,
     /// Trading Fee config
     pub fee_config: FeeConfig<Balance>,
 }

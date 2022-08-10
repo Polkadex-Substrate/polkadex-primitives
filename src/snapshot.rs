@@ -7,7 +7,7 @@ use sp_std::collections::btree_map::BTreeMap;
 use codec::{Decode, Encode,MaxEncodedLen};
 use frame_support::traits::Get;
 use scale_info::TypeInfo;
-use crate::{AssetId, Balance};
+use crate::AssetId;
 
 /// Provides maximum number of accounts possible in enclave data dump
 pub struct AccountInfoDumpLimit;

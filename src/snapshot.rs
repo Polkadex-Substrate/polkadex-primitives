@@ -6,6 +6,7 @@ use sp_runtime::traits::Zero;
 use std::collections::BTreeMap;
 use frame_support::storage::bounded_btree_map::BoundedBTreeMap;
 
+
 use crate::AssetId;
 use codec::{Decode, Encode, MaxEncodedLen};
 use frame_support::pallet_prelude::Get;
@@ -62,5 +63,40 @@ impl<Account: std::cmp::Ord, Balance: Zero + Clone, WithdrawalLimit: Get<u32>, A
 {
     fn eq(&self, other: &Self) -> bool {
         self.snapshot_number == other.snapshot_number
+    }
+}
+
+mod test{
+    use sp_runtime::AccountId32;
+    use std::convert::TryInto;
+    use std::convert::From;
+    use std::collections::BTreeMap;
+    use crate::{AccountId, snapshot::AccountInfo, Balance, ProxyLimit, snapshot::{H256, EnclaveSnapshot}, BoundedVec, AssetsLimit, WithdrawalLimit, withdrawal::Withdrawal, assets::AssetId};
+    use frame_support::bounded_vec;
+
+    #[test]
+    fn snpashot_serialize_deserialize(){
+        let account1: AccountId32 = [0_u8;32].into();
+        let account2: AccountId32 = [2_u8;32].into();
+        let mut snapshot: BTreeMap<AccountId, AccountInfo<AccountId, Balance, ProxyLimit>> = Default::default();
+        let mut withdrawals:  BTreeMap<AccountId, BoundedVec<Withdrawal<AccountId, Balance>, WithdrawalLimit>> = BTreeMap::new();
+        let withdrawal: Withdrawal<AccountId, Balance> = Withdrawal{
+            main_account: account1.clone(),
+            amount: 100_u128,
+            asset: AssetId::polkadex
+        };
+        withdrawals.insert(account1, bounded_vec![withdrawal.clone(), withdrawal.clone()]);
+        withdrawals.insert(account2, bounded_vec![withdrawal.clone()]);
+
+
+        let snapshot = EnclaveSnapshot::<AccountId, Balance, WithdrawalLimit, AssetsLimit>{
+            snapshot_number: 0,
+            merkle_root: H256([0_u8;32]),
+            withdrawals: withdrawals,
+            fees: bounded_vec![]
+        };
+        let serialized = serde_json::to_string(&snapshot).unwrap();
+        let deserialized: EnclaveSnapshot<AccountId, Balance, WithdrawalLimit, AssetsLimit> = serde_json::from_str(&serialized).unwrap();
+        assert_eq!(deserialized, snapshot);
     }
 }

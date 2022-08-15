@@ -75,10 +75,9 @@ mod test{
     use frame_support::bounded_vec;
 
     #[test]
-    fn snpashot_serialize_deserialize(){
+    fn snapshot_serialize_deserialize(){
         let account1: AccountId32 = [0_u8;32].into();
         let account2: AccountId32 = [2_u8;32].into();
-        let mut snapshot: BTreeMap<AccountId, AccountInfo<AccountId, Balance, ProxyLimit>> = Default::default();
         let mut withdrawals:  BTreeMap<AccountId, BoundedVec<Withdrawal<AccountId, Balance>, WithdrawalLimit>> = BTreeMap::new();
         let withdrawal: Withdrawal<AccountId, Balance> = Withdrawal{
             main_account: account1.clone(),
@@ -92,11 +91,12 @@ mod test{
         let snapshot = EnclaveSnapshot::<AccountId, Balance, WithdrawalLimit, AssetsLimit>{
             snapshot_number: 0,
             merkle_root: H256([0_u8;32]),
-            withdrawals: withdrawals,
+            withdrawals,
             fees: bounded_vec![]
         };
         let serialized = serde_json::to_string(&snapshot).unwrap();
         let deserialized: EnclaveSnapshot<AccountId, Balance, WithdrawalLimit, AssetsLimit> = serde_json::from_str(&serialized).unwrap();
         assert_eq!(deserialized, snapshot);
     }
+    
 }

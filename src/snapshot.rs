@@ -98,5 +98,4 @@ mod test{
         let deserialized: EnclaveSnapshot<AccountId, Balance, WithdrawalLimit, AssetsLimit> = serde_json::from_str(&serialized).unwrap();
         assert_eq!(deserialized, snapshot);
     }
-    
 }

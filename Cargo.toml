@@ -15,6 +15,7 @@ sp-runtime = { default-features = false, git = "https://github.com/paritytech/su
 sp-application-crypto = { default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.19" }
 frame-support = { default-features = false, git = "https://github.com/paritytech/substrate.git",  branch = "polkadot-v0.9.19" }
 syn = "=1.0.96" # TODO: Remove this as soon as frame-support-procedural-tools becomes compilable with latest syn version
+
 [dev-dependencies]
 sp-serializer = { default-features = false, git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.19" }
 pretty_assertions = "0.6.1"

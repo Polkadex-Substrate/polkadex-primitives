@@ -5,6 +5,7 @@ use sp_core::H256;
 use sp_runtime::traits::Zero;
 use sp_std::collections::btree_map::BTreeMap;
 use codec::{Decode, Encode,MaxEncodedLen};
+use frame_support::storage::bounded_btree_map::BoundedBTreeMap;
 use frame_support::traits::Get;
 use scale_info::TypeInfo;
 use crate::AssetId;
@@ -41,7 +42,7 @@ pub struct EnclaveSnapshot<Account: Ord, Balance: Zero + Clone, WithdrawalLimit:
     /// Hash of the balance snapshot dump made by enclave. ( dump contains all the accounts in enclave )
     pub merkle_root: H256,
     /// Withdrawals
-    pub withdrawals: BTreeMap<Account, BoundedVec<Withdrawal<Account, Balance>, WithdrawalLimit>>,
+    pub withdrawals: BoundedBTreeMap<Account, BoundedVec<Withdrawal<Account, Balance>, WithdrawalLimit>, WithdrawalLimit>,
     /// Fees collected by the operator
     pub fees: BoundedVec<Fees<Balance>,AssetsLimit>
 }

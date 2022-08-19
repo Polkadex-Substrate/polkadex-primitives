@@ -14,7 +14,7 @@ sp-std = { default-features = false, git = "https://github.com/paritytech/substr
 sp-runtime = { default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.19" }
 sp-application-crypto = { default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.19" }
 frame-support = { default-features = false, git = "https://github.com/paritytech/substrate.git",  branch = "polkadot-v0.9.19" }
-syn = "=1.0.96" # TODO: Remove this as soon as frame-support-procedural-tools becomes compilable with latest syn version
+#syn = "=1.0.96" # TODO: Remove this as soon as frame-support-procedural-tools becomes compilable with latest syn version
 
 [dev-dependencies]
 sp-serializer = { default-features = false, git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.19" }
@@ -25,7 +25,7 @@ default = ["std"]
 std = [
     "codec/std",
     "scale-info/std",
-    "serde",
+    "serde/std",
     "frame-system/std",
     "frame-support/std",
     "sp-application-crypto/std",

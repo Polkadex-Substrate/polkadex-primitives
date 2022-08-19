@@ -33,7 +33,7 @@ pub struct Fees<Balance: Zero + Clone>{
     pub amount: Balance
 }
 
-#[derive(Clone, Encode, Decode, TypeInfo, Debug)]
+#[derive(Clone, Encode, Decode, TypeInfo)]
 // #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 #[scale_info(skip_type_params(SnapshotAccLimit, WithdrawalLimit,AssetsLimit ))]
 pub struct EnclaveSnapshot<Account: Ord, Balance: Zero + Clone, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>> {

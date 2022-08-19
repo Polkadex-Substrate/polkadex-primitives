@@ -20,8 +20,7 @@ use sp_std::fmt::{Display, Formatter};
 use codec::{Decode, Encode, MaxEncodedLen};
 use scale_info::TypeInfo;
 #[cfg(feature = "std")]
-use serde::{Deserialize, Serialize};
-use serde::Serializer;
+use serde::{Deserialize, Serialize, Serializer};
 use sp_core::RuntimeDebug;
 
 /// Enumerated asset on chain

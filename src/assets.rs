@@ -21,6 +21,7 @@ use codec::{Decode, Encode, MaxEncodedLen};
 use scale_info::TypeInfo;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
+use serde::Serializer;
 use sp_core::RuntimeDebug;
 
 /// Enumerated asset on chain
@@ -72,6 +73,7 @@ impl Display for AssetId {
 )]
 #[cfg_attr(feature = "std", derive(Deserialize))]
 #[serde(tag = "asset_id")]
+#[cfg(feature = "std")]
 pub enum HashAssetId {
     /// Generic enumerated assed
     /// Range 0 - 0x00000000FFFFFFFF (2^32)-1 is reserved for protected tokens
@@ -81,7 +83,7 @@ pub enum HashAssetId {
     polkadex,
 }
 
-#[cfg(not(feature = "std"))]
+#[cfg(feature = "std")]
 impl Serialize for HashAssetId {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where

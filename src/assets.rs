@@ -96,6 +96,7 @@ impl Serialize for HashAssetId {
     }
 }
 
+#[cfg(feature = "std")]
 impl Display for HashAssetId {
     fn fmt(&self, f: &mut Formatter<'_>) -> sp_std::fmt::Result {
         match self {
@@ -104,7 +105,7 @@ impl Display for HashAssetId {
         }
     }
 }
-
+#[cfg(feature = "std")]
 impl Into<AssetId> for HashAssetId {
     fn into(self) -> AssetId {
         match self {
@@ -113,7 +114,7 @@ impl Into<AssetId> for HashAssetId {
         }
     }
 }
-
+#[cfg(feature = "std")]
 impl Into<HashAssetId> for AssetId {
     fn into(self) -> HashAssetId {
         match self {

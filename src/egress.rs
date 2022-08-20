@@ -1,14 +1,10 @@
-
-
 use frame_support::traits::Get;
 use frame_support::BoundedVec;
-
-
 use codec::{Decode, Encode};
 use scale_info::TypeInfo;
 
 #[derive(Clone, Encode, Decode, TypeInfo, Debug)]
-// #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub enum EgressMessages {
     RegisterEnclave(BoundedVec<u8, UnpaddedReportSize>),
 }

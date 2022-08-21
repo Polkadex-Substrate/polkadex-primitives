@@ -8,7 +8,7 @@ use codec::{Decode, Encode,MaxEncodedLen};
 use frame_support::storage::bounded_btree_map::BoundedBTreeMap;
 use frame_support::traits::Get;
 use scale_info::TypeInfo;
-use crate::AssetId;
+use crate::{AssetId, SnapshotAccLimit};
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
 
@@ -40,19 +40,19 @@ pub struct Fees<Balance: Zero + Clone>{
 #[cfg_attr(feature = "std",derive(Debug))]
 // #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 #[scale_info(skip_type_params(SnapshotAccLimit, WithdrawalLimit,AssetsLimit ))]
-pub struct EnclaveSnapshot<Account: Ord, Balance: Zero + Clone, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>> {
+pub struct EnclaveSnapshot<Account: Ord, Balance: Zero + Clone, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>, SnapshotAccLimit: Get<u32>> {
     /// Serial number of snapshot.
     pub snapshot_number: u32,
     /// Hash of the balance snapshot dump made by enclave. ( dump contains all the accounts in enclave )
     pub merkle_root: H256,
     /// Withdrawals
-    pub withdrawals: BoundedBTreeMap<Account, BoundedVec<Withdrawal<Account, Balance>, WithdrawalLimit>, WithdrawalLimit>,
+    pub withdrawals: BoundedBTreeMap<Account, BoundedVec<Withdrawal<Account, Balance>, WithdrawalLimit>, SnapshotAccLimit>,
     /// Fees collected by the operator
     pub fees: BoundedVec<Fees<Balance>,AssetsLimit>
 }
 
-impl<Account: Ord, Balance: Zero + Clone, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>> PartialEq
-    for EnclaveSnapshot<Account, Balance, WithdrawalLimit,AssetsLimit>
+impl<Account: Ord, Balance: Zero + Clone, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>, SnapshotAccLimit: Get<u32>> PartialEq
+    for EnclaveSnapshot<Account, Balance, WithdrawalLimit,AssetsLimit, SnapshotAccLimit>
 {
     fn eq(&self, other: &Self) -> bool {
         self.snapshot_number == other.snapshot_number

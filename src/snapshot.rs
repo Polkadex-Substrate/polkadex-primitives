@@ -36,7 +36,7 @@ pub struct Fees<Balance: Zero + Clone>{
     pub amount: Balance
 }
 
-#[derive(Clone, Encode, Decode, TypeInfo)]
+#[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo)]
 #[cfg_attr(feature = "std",derive(Debug))]
 // #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 #[scale_info(skip_type_params(SnapshotAccLimit, WithdrawalLimit,AssetsLimit ))]

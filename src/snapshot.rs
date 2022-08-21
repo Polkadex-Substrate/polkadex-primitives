@@ -8,7 +8,7 @@ use codec::{Decode, Encode,MaxEncodedLen};
 use frame_support::storage::bounded_btree_map::BoundedBTreeMap;
 use frame_support::traits::Get;
 use scale_info::TypeInfo;
-use crate::{AssetId, SnapshotAccLimit};
+use crate::{AssetId};
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
 

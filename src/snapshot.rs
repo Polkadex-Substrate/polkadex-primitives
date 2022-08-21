@@ -19,7 +19,7 @@ impl Get<u32> for AccountInfoDumpLimit {
 }
 
 #[derive(Clone, Encode, Decode, TypeInfo, Debug)]
-// #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct EnclaveAccountInfoDump<AccountId: Ord, Balance: Zero + Clone, ProxyLimit: Get<u32>> {
     /// Serial number of snapshot.
     pub snapshot_number: u32,
@@ -28,6 +28,7 @@ pub struct EnclaveAccountInfoDump<AccountId: Ord, Balance: Zero + Clone, ProxyLi
 }
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct Fees<Balance: Zero + Clone>{
     pub asset: AssetId,
     pub amount: Balance
@@ -35,7 +36,7 @@ pub struct Fees<Balance: Zero + Clone>{
 
 #[derive(Clone, Encode, Decode, TypeInfo)]
 #[cfg_attr(feature = "std",derive(Debug))]
-// #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 #[scale_info(skip_type_params(SnapshotAccLimit, WithdrawalLimit,AssetsLimit ))]
 pub struct EnclaveSnapshot<Account: Ord, Balance: Zero + Clone, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>> {
     /// Serial number of snapshot.

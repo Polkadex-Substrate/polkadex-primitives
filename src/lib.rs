@@ -91,7 +91,7 @@ impl Get<u32> for ProxyLimit {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
-// #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct AssetsLimit;
 impl Get<u32> for AssetsLimit {
     fn get() -> u32 {
@@ -100,7 +100,7 @@ impl Get<u32> for AssetsLimit {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
-// #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct SnapshotAccLimit;
 impl Get<u32> for SnapshotAccLimit {
     fn get() -> u32 {
@@ -108,7 +108,7 @@ impl Get<u32> for SnapshotAccLimit {
     }
 }
 #[derive(Debug, Clone, Copy, PartialEq)]
-// #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct WithdrawalLimit;
 impl Get<u32> for WithdrawalLimit {
     fn get() -> u32 {

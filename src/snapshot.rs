@@ -70,6 +70,9 @@ EnclaveSnapshot<Account, Balance, WithdrawalLimit, AssetsLimit, SnapshotAccLimit
     }
 }
 
+
+
+
 /// This is for use passing data from enclave to relayer via RPC, it's short cut.
 #[cfg_attr(feature = "std",derive(Deserialize,Serialize, Debug))]
 #[cfg(feature = "std")]

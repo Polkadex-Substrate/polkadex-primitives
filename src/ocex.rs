@@ -75,3 +75,22 @@ pub struct TradingPairConfig<Balance> {
     pub min_depth: Balance,
     pub max_spread: Balance,
 }
+
+#[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+pub enum OnChainEvents{
+	OrderBookWithdrawalClaimed(u64, u32, u64), 
+    GetStorage(Pallet, StorageItem, u32)
+}
+
+#[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+pub enum Pallet {
+    OCEX
+} 
+
+#[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+pub enum StorageItem{
+    Withdrawal
+} 

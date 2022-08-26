@@ -115,3 +115,12 @@ impl Get<u32> for WithdrawalLimit {
         500
     }
 }
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+pub struct OnChainEventsLimit;
+impl Get<u32> for OnChainEventsLimit {
+    fn get() -> u32 {
+        500
+    }
+}

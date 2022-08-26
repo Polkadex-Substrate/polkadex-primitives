@@ -8,6 +8,8 @@ use sp_std::collections::btree_map::BTreeMap;
 use serde::{Deserialize, Serialize};
 
 use crate::fees::FeeConfig;
+use crate::WithdrawalLimit;
+use crate::withdrawal::Withdrawal;
 use sp_runtime::traits::Zero;
 
 #[derive(Clone, Encode, Decode, TypeInfo, Debug)]
@@ -78,8 +80,8 @@ pub struct TradingPairConfig<Balance> {
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-pub enum OnChainEvents<AccountId>{
-	OrderBookWithdrawalClaimed(u64, u32, AccountId), 
+pub enum OnChainEvents<AccountId, Balance>{
+	OrderBookWithdrawalClaimed(u32, AccountId, BoundedVec<Withdrawal<AccountId, Balance>, WithdrawalLimit>), 
     GetStorage(Pallet, StorageItem, u32)
 }
 
@@ -93,4 +95,4 @@ pub enum Pallet {
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub enum StorageItem{
     Withdrawal
-} 
+}

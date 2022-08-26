@@ -78,8 +78,8 @@ pub struct TradingPairConfig<Balance> {
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-pub enum OnChainEvents{
-	OrderBookWithdrawalClaimed(u64, u32, u64), 
+pub enum OnChainEvents<AccountId>{
+	OrderBookWithdrawalClaimed(u64, u32, AccountId), 
     GetStorage(Pallet, StorageItem, u32)
 }
 

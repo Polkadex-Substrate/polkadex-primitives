@@ -18,7 +18,6 @@ use sp_runtime::traits::Zero;
 pub struct AccountInfo<Account, Balance: Zero + Clone, ProxyLimit: Get<u32>> {
     pub main_account: Account,
     pub proxies: BoundedVec<Account, ProxyLimit>,
-    pub nonce: u32,
     pub balances: BTreeMap<AssetId, (Balance, Balance)>,
     /// Trading Fee config
     pub fee_config: FeeConfig<Balance>,
@@ -42,7 +41,6 @@ impl<Account: PartialEq, Balance: Zero + Clone, ProxyLimit: Get<u32>>
         AccountInfo {
             main_account: main_account_id,
             proxies,
-            nonce: 0,
             balances: BTreeMap::new(),
             fee_config: Default::default(),
         }

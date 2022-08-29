@@ -11,5 +11,6 @@ pub struct Withdrawal<AccountId, Balance> {
     pub main_account: AccountId,
     pub amount: Balance,
     pub asset: AssetId,
-    pub event_id: u64
+    pub event_id: u64, 
+    pub fees: u128,
 }

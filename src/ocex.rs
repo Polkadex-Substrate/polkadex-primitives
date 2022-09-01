@@ -66,10 +66,10 @@ pub struct OCEXConfig<AccountId> {
 pub struct TradingPairConfig<Balance> {
     pub base_asset: AssetId,
     pub quote_asset: AssetId,
-    pub min_trade_amount: Balance,
-    pub max_trade_amount: Balance,
-    pub min_order_qty: Balance,
-    pub max_order_qty: Balance,
-    pub min_depth: Balance,
-    pub max_spread: Balance,
+    pub min_price: Balance,
+    pub max_price: Balance,
+    pub price_tick_size: Balance,
+    pub min_qty: Balance,
+    pub max_qty: Balance,
+    pub qty_step_size: Balance,
 }

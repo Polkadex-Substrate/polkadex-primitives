@@ -6,6 +6,7 @@ use sp_runtime::traits::Zero;
 use sp_std::collections::btree_map::BTreeMap;
 use codec::{Decode, Encode,MaxEncodedLen};
 use frame_support::storage::bounded_btree_map::BoundedBTreeMap;
+use frame_support::traits::tokens::Balance as BalanceT;
 use frame_support::traits::Get;
 use scale_info::TypeInfo;
 use crate::{AssetId};
@@ -22,7 +23,7 @@ impl Get<u32> for AccountInfoDumpLimit {
 
 #[derive(Clone, Encode, Decode, TypeInfo, Debug)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-pub struct EnclaveAccountInfoDump<AccountId: Ord, Balance: Zero + Clone, ProxyLimit: Get<u32>> {
+pub struct EnclaveAccountInfoDump<AccountId: Ord, Balance: BalanceT, ProxyLimit: Get<u32>> {
     /// Serial number of snapshot.
     pub snapshot_number: u32,
     /// All Accounts present in enclave

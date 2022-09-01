@@ -1,21 +1,23 @@
 use codec::{Decode, Encode};
+use frame_support::traits::tokens::Balance as BalanceT;
 use scale_info::TypeInfo;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
+use sp_runtime::SaturatedConversion;
 use sp_runtime::traits::Zero;
 
 #[derive(Copy, Clone, Encode, Decode, PartialEq, Debug, TypeInfo)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-pub struct FeeConfig<Balance: Zero> {
-    pub(crate) maker_fraction: Balance,
-    pub(crate) taker_fraction: Balance,
+pub struct FeeConfig<Balance: Zero + BalanceT + Default> {
+    pub maker_fraction: Balance,
+    pub taker_fraction: Balance,
 }
 
-impl<Balance: Zero> Default for FeeConfig<Balance> {
+impl<Balance: Zero + BalanceT> Default for FeeConfig<Balance> {
     fn default() -> Self {
         Self {
-            maker_fraction: Balance::zero(),
-            taker_fraction: Balance::zero(),
+            maker_fraction: 2u128.saturated_into(),
+            taker_fraction: 2u128.saturated_into(),
         }
     }
 }

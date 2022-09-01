@@ -4,6 +4,7 @@ use frame_support::traits::Get;
 use frame_support::BoundedVec;
 use scale_info::TypeInfo;
 use sp_std::collections::btree_map::BTreeMap;
+use frame_support::traits::tokens::Balance as BalanceT;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
 
@@ -13,7 +14,7 @@ use sp_runtime::traits::Zero;
 #[derive(Clone, Encode, Decode, TypeInfo, Debug)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 #[scale_info(skip_type_params(ProxyLimit))]
-pub struct AccountInfo<Account, Balance: Zero + Clone, ProxyLimit: Get<u32>> {
+pub struct AccountInfo<Account, Balance: BalanceT + Default, ProxyLimit: Get<u32>> {
     pub main_account: Account,
     pub proxies: BoundedVec<Account, ProxyLimit>,
     pub nonce: u32,
@@ -21,7 +22,7 @@ pub struct AccountInfo<Account, Balance: Zero + Clone, ProxyLimit: Get<u32>> {
     /// Trading Fee config
     pub fee_config: FeeConfig<Balance>,
 }
-impl<Account: PartialEq, Balance: Zero + Clone, ProxyLimit: Get<u32>>
+impl<Account: PartialEq, Balance: BalanceT + Default, ProxyLimit: Get<u32>>
     AccountInfo<Account, Balance, ProxyLimit>
 {
     pub fn maker_fee_fraction(&self) -> Balance {
@@ -32,7 +33,7 @@ impl<Account: PartialEq, Balance: Zero + Clone, ProxyLimit: Get<u32>>
     }
 }
 
-impl<Account: PartialEq, Balance: Zero + Clone, ProxyLimit: Get<u32>>
+impl<Account: PartialEq, Balance: BalanceT + Default, ProxyLimit: Get<u32>>
     AccountInfo<Account, Balance, ProxyLimit>
 {
     pub fn new(main_account_id: Account) -> AccountInfo<Account, Balance, ProxyLimit> {

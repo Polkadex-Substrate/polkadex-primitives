@@ -7,8 +7,8 @@ use sp_runtime::traits::Zero;
 #[derive(Copy, Clone, Encode, Decode, PartialEq, Debug, TypeInfo)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct FeeConfig<Balance: Zero> {
-    pub(crate) maker_fraction: Balance,
-    pub(crate) taker_fraction: Balance,
+    pub maker_fraction: Balance,
+    pub taker_fraction: Balance,
 }
 
 impl<Balance: Zero> Default for FeeConfig<Balance> {

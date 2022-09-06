@@ -1,4 +1,5 @@
 use codec::{Decode, Encode};
+use rust_decimal::Decimal;
 use scale_info::TypeInfo;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
@@ -6,16 +7,16 @@ use sp_runtime::traits::Zero;
 
 #[derive(Copy, Clone, Encode, Decode, PartialEq, Debug, TypeInfo)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-pub struct FeeConfig<Balance: Zero> {
-    pub(crate) maker_fraction: Balance,
-    pub(crate) taker_fraction: Balance,
+pub struct FeeConfig {
+    pub(crate) maker_fraction: Decimal,
+    pub(crate) taker_fraction: Decimal,
 }
 
-impl<Balance: Zero> Default for FeeConfig<Balance> {
+impl Default for FeeConfig {
     fn default() -> Self {
         Self {
-            maker_fraction: Balance::zero(),
-            taker_fraction: Balance::zero(),
+            maker_fraction: Decimal::new(1,1),
+            taker_fraction: Decimal::new(1,1),
         }
     }
 }

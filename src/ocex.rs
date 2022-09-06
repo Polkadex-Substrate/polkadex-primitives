@@ -2,6 +2,7 @@ use crate::assets::AssetId;
 use codec::{Decode, Encode, MaxEncodedLen};
 use frame_support::traits::Get;
 use frame_support::BoundedVec;
+use rust_decimal::Decimal;
 use scale_info::TypeInfo;
 use sp_std::collections::btree_map::BTreeMap;
 #[cfg(feature = "std")]
@@ -15,28 +16,28 @@ use sp_runtime::traits::Zero;
 #[derive(Clone, Encode, Decode, TypeInfo, Debug)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 #[scale_info(skip_type_params(ProxyLimit))]
-pub struct AccountInfo<Account, Balance: Zero + Clone, ProxyLimit: Get<u32>> {
+pub struct AccountInfo<Account, ProxyLimit: Get<u32>> {
     pub main_account: Account,
     pub proxies: BoundedVec<Account, ProxyLimit>,
-    pub balances: BTreeMap<AssetId, (Balance, Balance)>,
+    pub balances: BTreeMap<AssetId, (Decimal, Decimal)>,
     /// Trading Fee config
-    pub fee_config: FeeConfig<Balance>,
+    pub fee_config: FeeConfig,
 }
-impl<Account: PartialEq, Balance: Zero + Clone, ProxyLimit: Get<u32>>
-    AccountInfo<Account, Balance, ProxyLimit>
+impl<Account: PartialEq, ProxyLimit: Get<u32>>
+    AccountInfo<Account, ProxyLimit>
 {
-    pub fn maker_fee_fraction(&self) -> Balance {
+    pub fn maker_fee_fraction(&self) -> Decimal {
         self.fee_config.maker_fraction.clone()
     }
-    pub fn taker_fee_fraction(&self) -> Balance {
+    pub fn taker_fee_fraction(&self) -> Decimal {
         self.fee_config.taker_fraction.clone()
     }
 }
 
-impl<Account: PartialEq, Balance: Zero + Clone, ProxyLimit: Get<u32>>
-    AccountInfo<Account, Balance, ProxyLimit>
+impl<Account: PartialEq, ProxyLimit: Get<u32>>
+    AccountInfo<Account, ProxyLimit>
 {
-    pub fn new(main_account_id: Account) -> AccountInfo<Account, Balance, ProxyLimit> {
+    pub fn new(main_account_id: Account) -> AccountInfo<Account, ProxyLimit> {
         let proxies = BoundedVec::default();
         AccountInfo {
             main_account: main_account_id,
@@ -65,22 +66,22 @@ pub struct OCEXConfig<AccountId> {
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-pub struct TradingPairConfig<Balance> {
+pub struct TradingPairConfig {
     pub base_asset: AssetId,
     pub quote_asset: AssetId,
-    pub min_price: Balance,
-    pub max_price: Balance,
-    pub price_tick_size: Balance,
-    pub min_qty: Balance,
-    pub max_qty: Balance,
-    pub qty_step_size: Balance,
+    pub min_price: Decimal,
+    pub max_price: Decimal,
+    pub price_tick_size: Decimal,
+    pub min_qty: Decimal,
+    pub max_qty: Decimal,
+    pub qty_step_size: Decimal,
     pub operational_status: bool, //will be true if the trading pair is enabled on the orderbook.
 }
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-pub enum OnChainEvents<AccountId, Balance>{
-	OrderBookWithdrawalClaimed(u32, AccountId, BoundedVec<Withdrawal<AccountId, Balance>, WithdrawalLimit>), 
+pub enum OnChainEvents<AccountId>{
+	OrderBookWithdrawalClaimed(u32, AccountId, BoundedVec<Withdrawal<AccountId>, WithdrawalLimit>),
     GetStorage(Pallet, StorageItem, u32)
 }
 

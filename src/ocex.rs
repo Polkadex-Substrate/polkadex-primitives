@@ -37,13 +37,13 @@ impl<Account: PartialEq, ProxyLimit: Get<u32>>
 impl<Account: PartialEq, ProxyLimit: Get<u32>>
     AccountInfo<Account, ProxyLimit>
 {
-    pub fn new(main_account_id: Account, FeeConfig) -> AccountInfo<Account, ProxyLimit> {
+    pub fn new(main_account_id: Account) -> AccountInfo<Account, ProxyLimit> {
         let proxies = BoundedVec::default();
         AccountInfo {
             main_account: main_account_id,
             proxies,
             balances: BTreeMap::new(),
-            fee_config,
+            fee_config: Default::default(),
         }
     }
 

@@ -74,6 +74,7 @@ pub struct TradingPairConfig<Balance> {
     pub min_qty: Balance,
     pub max_qty: Balance,
     pub qty_step_size: Balance,
+    pub operational_status: bool, //will be true if the trading pair is enabled on the orderbook.
 }
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]

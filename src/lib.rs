@@ -41,6 +41,8 @@ use sp_runtime::{
 // reexports:
 pub use assets::*;
 
+pub const UNIT_BALANCE: u128 = 1000_000_000_000;
+
 /// An index to a block.
 pub type BlockNumber = u32;
 

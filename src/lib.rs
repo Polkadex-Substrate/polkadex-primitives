@@ -37,6 +37,8 @@ use sp_runtime::{
     traits::{BlakeTwo256, IdentifyAccount, Verify},
     MultiSignature, OpaqueExtrinsic,
 };
+use codec::{Decode,Encode};
+use scale_info::TypeInfo;
 
 // reexports:
 pub use assets::*;
@@ -83,7 +85,7 @@ pub type Block = generic::Block<Header, OpaqueExtrinsic>;
 pub type BlockId = generic::BlockId<Block>;
 
 // TODO: Figure out the actual bound given below
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, TypeInfo, Encode, Decode)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct ProxyLimit;
 impl Get<u32> for ProxyLimit {
@@ -92,7 +94,7 @@ impl Get<u32> for ProxyLimit {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, TypeInfo, Encode, Decode)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct AssetsLimit;
 impl Get<u32> for AssetsLimit {
@@ -101,7 +103,7 @@ impl Get<u32> for AssetsLimit {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, TypeInfo, Encode, Decode)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct SnapshotAccLimit;
 impl Get<u32> for SnapshotAccLimit {
@@ -109,7 +111,7 @@ impl Get<u32> for SnapshotAccLimit {
         1000
     }
 }
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, TypeInfo, Encode, Decode)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct WithdrawalLimit;
 impl Get<u32> for WithdrawalLimit {
@@ -118,7 +120,7 @@ impl Get<u32> for WithdrawalLimit {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, TypeInfo, Encode, Decode)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct OnChainEventsLimit;
 impl Get<u32> for OnChainEventsLimit {

@@ -2,7 +2,6 @@ use crate::ocex::AccountInfo;
 use crate::withdrawal::Withdrawal;
 use frame_support::BoundedVec;
 use sp_core::H256;
-use sp_runtime::traits::Zero;
 use sp_std::collections::btree_map::BTreeMap;
 use codec::{Decode, Encode,MaxEncodedLen};
 use frame_support::storage::bounded_btree_map::BoundedBTreeMap;
@@ -39,7 +38,6 @@ pub struct Fees{
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo)]
 #[cfg_attr(feature = "std",derive(Debug))]
-// #[scale_info(skip_type_params(SnapshotAccLimit, WithdrawalLimit,AssetsLimit ))]
 pub struct EnclaveSnapshot<Account: Ord, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>, SnapshotAccLimit: Get<u32>> {
     /// Serial number of snapshot.
     pub snapshot_number: u32,

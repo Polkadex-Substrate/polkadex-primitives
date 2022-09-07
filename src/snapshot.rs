@@ -39,7 +39,7 @@ pub struct Fees{
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo)]
 #[cfg_attr(feature = "std",derive(Debug))]
-#[scale_info(skip_type_params(SnapshotAccLimit, WithdrawalLimit,AssetsLimit ))]
+// #[scale_info(skip_type_params(SnapshotAccLimit, WithdrawalLimit,AssetsLimit ))]
 pub struct EnclaveSnapshot<Account: Ord, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>, SnapshotAccLimit: Get<u32>> {
     /// Serial number of snapshot.
     pub snapshot_number: u32,

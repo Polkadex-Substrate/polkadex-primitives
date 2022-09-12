@@ -28,7 +28,8 @@ pub mod snapshot;
 pub mod withdrawal;
 
 pub use frame_support::storage::bounded_vec::BoundedVec;
-
+use scale_info::TypeInfo;
+use codec::{Encode,Decode};
 use frame_support::traits::Get;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
@@ -113,6 +114,15 @@ impl Get<u32> for SnapshotAccLimit {
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct WithdrawalLimit;
 impl Get<u32> for WithdrawalLimit {
+    fn get() -> u32 {
+        500
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, TypeInfo, Encode, Decode)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+pub struct OnChainEventsLimit;
+impl Get<u32> for OnChainEventsLimit {
     fn get() -> u32 {
         500
     }

@@ -15,6 +15,8 @@ pub enum IngressMessages<AccountId> {
     StartEnclave(OCEXConfig<AccountId>),
     // Open Trading Pair
     OpenTradingPair(TradingPairConfig),
+    // Update Trading Pair
+    UpdateTradingPair(TradingPairConfig),
     // Register User ( main, proxy)
     RegisterUser(AccountId, AccountId),
     // Main Acc, Assetid, Amount

@@ -21,6 +21,7 @@ use codec::{Decode, Encode, MaxEncodedLen};
 use scale_info::TypeInfo;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize, Serializer};
+use serde::ser::SerializeStruct;
 use sp_core::RuntimeDebug;
 
 /// Enumerated asset on chain
@@ -38,12 +39,29 @@ use sp_core::RuntimeDebug;
     TypeInfo,
     MaxEncodedLen
 )]
-#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "std", derive(Deserialize))]
 pub enum AssetId {
     /// PDEX the native currency of the chain
     asset(u128),
     polkadex,
 
+}
+
+#[cfg(feature = "std")]
+impl Serialize for AssetId {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where
+            S: Serializer,
+    {
+        let mut state = serializer.serialize_struct("AssetId", 1)?;
+        match self {
+            AssetId::asset(asset_id) =>
+                state.serialize_field("asset", &asset_id.to_string())?,
+            AssetId::polkadex => state.serialize_field("asset", "polkadex")?,
+        };
+        state.end()
+
+    }
 }
 
 #[cfg(feature = "std")]

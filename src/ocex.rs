@@ -76,6 +76,8 @@ pub struct TradingPairConfig {
     pub max_qty: Decimal,
     pub qty_step_size: Decimal,
     pub operational_status: bool, //will be true if the trading pair is enabled on the orderbook.
+    pub base_asset_precision: u8,
+    pub quote_asset_precision: u8
 }
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]

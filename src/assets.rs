@@ -21,6 +21,7 @@ use codec::{Decode, Encode, MaxEncodedLen};
 use scale_info::TypeInfo;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize, Serializer};
+#[cfg(feature = "std")]
 use serde::ser::SerializeStruct;
 use sp_core::RuntimeDebug;
 

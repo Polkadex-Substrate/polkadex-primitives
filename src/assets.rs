@@ -39,6 +39,7 @@ use std::fmt::{Display, Formatter};
     RuntimeDebug,
     TypeInfo,
     MaxEncodedLen,
+    Debug
 )]
 #[cfg_attr(feature = "std", derive(Deserialize, Serialize))]
 pub enum AssetId {

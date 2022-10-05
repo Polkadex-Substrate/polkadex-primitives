@@ -43,6 +43,8 @@ pub struct Fees{
 pub struct EnclaveSnapshot<Account: Ord, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>, SnapshotAccLimit: Get<u32>> {
     /// Serial number of snapshot.
     pub snapshot_number: u32,
+    /// Event Id
+    pub event_id: u32,
     /// Hash of the balance snapshot dump made by enclave. ( dump contains all the accounts in enclave )
     pub snapshot_hash: H256,
     /// Withdrawals
@@ -63,6 +65,7 @@ EnclaveSnapshot<Account, WithdrawalLimit, AssetsLimit, SnapshotAccLimit> {
     fn try_from(value: EnclaveSnapshotStd<Account, WithdrawalLimit, AssetsLimit>) -> Result<Self, Self::Error> {
         Ok(EnclaveSnapshot {
             snapshot_number: value.snapshot_number,
+            event_id: value.event_id,
             snapshot_hash: value.merkle_root,
             withdrawals: BoundedBTreeMap::try_from(value.withdrawals)?,
             fees: value.fees

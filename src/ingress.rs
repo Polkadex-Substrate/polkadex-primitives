@@ -32,5 +32,7 @@ pub enum IngressMessages<AccountId> {
     // Close Trading Pair
     CloseTradingPair(TradingPairConfig),
     // Latest snapshot (MerkelRoot, snapshot_no)
-    LastestSnapshot(H256, u32)
+    LastestSnapshot(H256, u32),
+    // Main Acc, Assetid, Amount
+    UnreserveBalance(AccountId, AssetId, Decimal),
 }

@@ -74,6 +74,8 @@ EnclaveSnapshot<Account, WithdrawalLimit, AssetsLimit, SnapshotAccLimit> {
 pub struct EnclaveSnapshotStd<Account: Ord, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>> {
     /// Serial number of snapshot.
     pub snapshot_number: u32,
+    /// Event Id
+    pub event_id: u32,
     /// Hash of the balance snapshot dump made by enclave. ( dump contains all the accounts in enclave )
     pub merkle_root: H256,
     /// Withdrawals

@@ -44,7 +44,7 @@ pub struct EnclaveSnapshot<Account: Ord, WithdrawalLimit: Get<u32>, AssetsLimit:
     /// Serial number of snapshot.
     pub snapshot_number: u32,
     /// Event Id
-    pub event_id: u32,
+    pub event_id: u64,
     /// Hash of the balance snapshot dump made by enclave. ( dump contains all the accounts in enclave )
     pub snapshot_hash: H256,
     /// Withdrawals
@@ -83,7 +83,7 @@ pub struct EnclaveSnapshotStd<Account: Ord, WithdrawalLimit: Get<u32>, AssetsLim
     /// Serial number of snapshot.
     pub snapshot_number: u32,
     /// Event Id
-    pub event_id: u32,
+    pub event_id: u64,
     /// Hash of the balance snapshot dump made by enclave. ( dump contains all the accounts in enclave )
     pub merkle_root: H256,
     /// Withdrawals

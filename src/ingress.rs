@@ -33,6 +33,6 @@ pub enum IngressMessages<AccountId> {
     CloseTradingPair(TradingPairConfig),
     // Latest snapshot (MerkelRoot, snapshot_no)
     LastestSnapshot(H256, u32),
-    // Main Acc, Assetid, Amount
+    //Resetting the balances of Account
     UnreserveBalance(AccountId, AssetId, Decimal),
 }

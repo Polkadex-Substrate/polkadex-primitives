@@ -46,8 +46,8 @@ pub enum IngressMessages<AccountId> {
 pub struct HandleBalance<AccountId> {
     pub main_account: AccountId,
     pub asset_id: AssetId,
-    pub free: Decimal,
-    pub reserve: Decimal,
+    pub free: u128,
+    pub reserve: u128,
 }
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]

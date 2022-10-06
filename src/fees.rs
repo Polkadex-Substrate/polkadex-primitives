@@ -14,8 +14,8 @@ pub struct FeeConfig {
 impl Default for FeeConfig {
     fn default() -> Self {
         Self {
-            maker_fraction: Decimal::new(1,3),
-            taker_fraction: Decimal::new(1,3),
+            maker_fraction: Decimal::zero(),
+            taker_fraction: Decimal::zero(),
         }
     }
 }

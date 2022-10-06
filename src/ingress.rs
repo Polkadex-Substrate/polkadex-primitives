@@ -4,6 +4,8 @@ use crate::AssetId;
 use serde::{Deserialize, Serialize};
 
 use codec::{Decode, Encode, MaxEncodedLen};
+use frame_support::traits::Get;
+use frame_support::BoundedVec;
 use rust_decimal::Decimal;
 use scale_info::TypeInfo;
 use sp_core::H256;
@@ -34,5 +36,25 @@ pub enum IngressMessages<AccountId> {
     // Latest snapshot (MerkelRoot, snapshot_no)
     LastestSnapshot(H256, u32),
     // Main Acc, Assetid, Amount
-    UnreserveBalance(AccountId, AssetId, Decimal),
+    SetFreeReserveBalanceForAccounts(BoundedVec<HandleBalance<AccountId>, HandleBalanceLimit>)
+}
+
+#[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+pub struct HandleBalance<AccountId> {
+    pub main_account: AccountId,
+    pub asset_id: AssetId,
+    pub free: Decimal,
+    pub reserve: Decimal,
+}
+
+#[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+pub struct HandleBalanceLimit;
+
+impl Get<u32> for HandleBalanceLimit {
+    //ToDo: Set an arbitrary value to 1000.
+    fn get() -> u32 {
+        1000
+    }
 }

@@ -36,7 +36,9 @@ pub enum IngressMessages<AccountId> {
     // Latest snapshot (MerkelRoot, snapshot_no)
     LastestSnapshot(H256, u32),
     //Resetting the balances of Account
-    SetFreeReserveBalanceForAccounts(BoundedVec<HandleBalance<AccountId>, HandleBalanceLimit>)
+    SetFreeReserveBalanceForAccounts(BoundedVec<HandleBalance<AccountId>, HandleBalanceLimit>),
+    // Changing the exchange state in order-book
+    SetExchangeState(bool),
 }
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]

@@ -1,5 +1,6 @@
 use codec::{Decode, Encode};
 use rust_decimal::Decimal;
+use rust_decimal::prelude::Zero;
 use scale_info::TypeInfo;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
@@ -14,8 +15,8 @@ pub struct FeeConfig {
 impl Default for FeeConfig {
     fn default() -> Self {
         Self {
-            maker_fraction: Decimal::new(1,3),
-            taker_fraction: Decimal::new(1,3),
+            maker_fraction: Decimal::zero(),
+            taker_fraction: Decimal::zero(),
         }
     }
 }

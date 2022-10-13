@@ -8,7 +8,7 @@ use frame_support::storage::bounded_btree_map::BoundedBTreeMap;
 use frame_support::traits::Get;
 use rust_decimal::Decimal;
 use scale_info::TypeInfo;
-use crate::{AssetId};
+use crate::{AccountId, AssetId};
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
 
@@ -41,6 +41,8 @@ pub struct Fees{
 pub struct EnclaveSnapshot<Account: Ord, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>, SnapshotAccLimit: Get<u32>> {
     /// Serial number of snapshot.
     pub snapshot_number: u32,
+    /// Enclave Account Id
+    pub account_id: AccountId,
     /// Event Id
     pub event_id: u64,
     /// Hash of the balance snapshot dump made by enclave. ( dump contains all the accounts in enclave )
@@ -63,6 +65,7 @@ EnclaveSnapshot<Account, WithdrawalLimit, AssetsLimit, SnapshotAccLimit> {
     fn try_from(value: EnclaveSnapshotStd<Account, WithdrawalLimit, AssetsLimit>) -> Result<Self, Self::Error> {
         Ok(EnclaveSnapshot {
             snapshot_number: value.snapshot_number,
+            account_id: value.enclave_id,
             event_id: value.event_id,
             snapshot_hash: value.merkle_root,
             withdrawals: BoundedBTreeMap::try_from(value.withdrawals)?,
@@ -77,6 +80,8 @@ EnclaveSnapshot<Account, WithdrawalLimit, AssetsLimit, SnapshotAccLimit> {
 pub struct EnclaveSnapshotStd<Account: Ord, WithdrawalLimit: Get<u32>, AssetsLimit: Get<u32>> {
     /// Serial number of snapshot.
     pub snapshot_number: u32,
+    /// Enclave Account Id
+    pub enclave_id: AccountId,
     /// Event Id
     pub event_id: u64,
     /// Hash of the balance snapshot dump made by enclave. ( dump contains all the accounts in enclave )

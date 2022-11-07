@@ -5,6 +5,7 @@ authors = ["Gautham J <Gauthamastro@gmail.com>"]
 edition = "2021"
 
 [dependencies]
+anyhow = "1.0.56"
 codec = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive","full"] }
 serde = { version = "1.0.136", optional = true }
 scale-info = { version = "2.1.2", default-features = false, features = ["derive"] }

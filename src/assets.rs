@@ -49,6 +49,22 @@ pub enum AssetId {
 }
 
 #[cfg(feature = "std")]
+impl TryFrom<String> for AssetId {
+    type Error = anyhow::Error;
+
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        if value.as_str() == "PDEX" {
+            return Ok(AssetId::polkadex);
+        }
+
+        match value.parse::<u128>() {
+            Ok(id) => Ok(AssetId::asset(id)),
+            Err(_) => Err(anyhow::Error::msg::<String>(format!("Could not parse 'AssetId' from {}", value).into()))
+        }
+    }
+}
+
+#[cfg(feature = "std")]
 impl Serialize for AssetId {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
         where

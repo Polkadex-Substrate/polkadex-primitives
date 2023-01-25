@@ -35,10 +35,12 @@ pub enum IngressMessages<AccountId> {
     CloseTradingPair(TradingPairConfig),
     // Latest snapshot (MerkelRoot, snapshot_no)
     LastestSnapshot(H256, u32),
-    //Resetting the balances of Account
+    // Resetting the balances of Account
     SetFreeReserveBalanceForAccounts(BoundedVec<HandleBalance<AccountId>, HandleBalanceLimit>),
     // Changing the exchange state in order-book
     SetExchangeState(bool),
+    // Withdrawal from Chain to OrderBook
+    DirectWithdrawal(AccountId, AssetId, Decimal)
 }
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]

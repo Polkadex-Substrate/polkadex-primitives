@@ -40,7 +40,7 @@ pub enum IngressMessages<AccountId> {
     // Changing the exchange state in order-book
     SetExchangeState(bool),
     // Withdrawal from Chain to OrderBook
-    DirectWithdrawal(AccountId, AssetId, Decimal)
+    DirectWithdrawal(AccountId, AssetId, Decimal, bool),
 }
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]

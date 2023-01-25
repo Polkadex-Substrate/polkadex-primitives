@@ -39,6 +39,8 @@ pub enum IngressMessages<AccountId> {
     SetFreeReserveBalanceForAccounts(BoundedVec<HandleBalance<AccountId>, HandleBalanceLimit>),
     // Changing the exchange state in order-book
     SetExchangeState(bool),
+    // Withdrawal from Chain to OrderBook
+    DirectWithdrawal(AccountId, AssetId, Decimal)
 }
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]

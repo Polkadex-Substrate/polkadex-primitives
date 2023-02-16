@@ -47,7 +47,7 @@ impl<Account: PartialEq, ProxyLimit: Get<u32>>
 
     // Adds a new proxy account
     pub fn add_proxy(&mut self, proxy: Account) -> Result<(), ()> {
-        self.proxies.try_push(proxy)
+        self.proxies.try_push(proxy).map_err(|_| ())
     }
 
     // Removes a proxy account

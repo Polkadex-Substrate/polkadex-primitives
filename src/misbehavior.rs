@@ -4,7 +4,7 @@ use scale_info::TypeInfo;
 use serde::{Deserialize, Serialize};
 
 ///
-#[derive(Debug, Decode, Encode, TypeInfo)]
+#[derive(Debug, Decode, Encode, TypeInfo, Clone, Copy)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub enum TheaMisbehavior {
     // Bad BLS signature

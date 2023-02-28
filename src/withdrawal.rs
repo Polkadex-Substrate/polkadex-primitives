@@ -26,13 +26,13 @@ pub struct WithdrawalPayload {
     pub user: AccountId,
 }
 
-#[derive(Encode, Decode, Serialize, Deserialize, Debug, Clone, TypeInfo)]
+#[derive(Encode, Decode, Serialize, Deserialize, Debug, Clone, TypeInfo, PartialEq)]
 pub struct Withdrawals {
     pub withdrawals: Vec<WithdrawalPayload>,
     pub nonce: u32,
 }
 
-#[derive(Clone, Serialize, Deserialize, Debug, Encode, Decode, TypeInfo)]
+#[derive(Clone, Serialize, Deserialize, Debug, Encode, Decode, TypeInfo, PartialEq)]
 pub struct SnapshotSummary {
     // Last synced blocknumber
     pub last_block: BlockNumber,

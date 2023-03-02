@@ -23,13 +23,16 @@ pub mod assets;
 pub mod egress;
 pub mod fees;
 pub mod ingress;
+pub mod misbehavior;
 pub mod ocex;
 pub mod snapshot;
 pub mod withdrawal;
 
 pub use frame_support::storage::bounded_vec::BoundedVec;
 
+use codec::{Decode, Encode};
 use frame_support::traits::Get;
+use scale_info::TypeInfo;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
 use sp_runtime::{
@@ -37,8 +40,6 @@ use sp_runtime::{
     traits::{BlakeTwo256, IdentifyAccount, Verify},
     MultiSignature, OpaqueExtrinsic,
 };
-use codec::{Decode,Encode};
-use scale_info::TypeInfo;
 
 // reexports:
 pub use assets::*;

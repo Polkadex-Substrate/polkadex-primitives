@@ -7,7 +7,6 @@ use scale_info::TypeInfo;
 use serde::{Deserialize, Serialize};
 use sp_core::H256;
 use crate::{AccountId, BlockNumber, Header};
-use sp_std::vec::Vec;
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
@@ -60,7 +59,7 @@ impl Default for SnapshotSummary{
                 extrinsics_root: Default::default(),
                 digest: Default::default(),
             },
-            withdrawals_processed: Withdrawals { withdrawals: vec![], nonce: 0 },
+            withdrawals_processed: Withdrawals { withdrawals: sp_std::vec::Vec::new(), nonce: 0 },
         }
     }
 }

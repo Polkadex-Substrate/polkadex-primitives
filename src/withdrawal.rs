@@ -45,3 +45,21 @@ pub struct SnapshotSummary {
     // Pending Withdrawals
     pub withdrawals_processed: Withdrawals,
 }
+
+impl Default for SnapshotSummary{
+    fn default() -> Self {
+        Self{
+            last_block: 0,
+            snapshot_number: 0,
+            enclave_state_hash: Default::default(),
+            initialization_header: Header {
+                parent_hash: Default::default(),
+                number: 0,
+                state_root: Default::default(),
+                extrinsics_root: Default::default(),
+                digest: Default::default(),
+            },
+            withdrawals_processed: Withdrawals { withdrawals: vec![], nonce: 0 },
+        }
+    }
+}

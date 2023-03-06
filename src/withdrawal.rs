@@ -28,7 +28,7 @@ pub struct WithdrawalPayload {
 
 #[derive(Encode, Decode, Serialize, Deserialize, Debug, Clone, TypeInfo, PartialEq)]
 pub struct Withdrawals {
-    pub withdrawals: Vec<WithdrawalPayload>,
+    pub withdrawals: sp_std::vec::Vec<WithdrawalPayload>,
     pub nonce: u32,
 }
 

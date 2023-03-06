@@ -26,13 +26,15 @@ pub struct WithdrawalPayload {
     pub user: AccountId,
 }
 
-#[derive(Encode, Decode, Serialize, Deserialize, Debug, Clone, TypeInfo, PartialEq)]
+#[derive(Encode, Decode, Debug, Clone, TypeInfo, PartialEq)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct Withdrawals {
     pub withdrawals: sp_std::vec::Vec<WithdrawalPayload>,
     pub nonce: u32,
 }
 
-#[derive(Clone, Serialize, Deserialize, Debug, Encode, Decode, TypeInfo, PartialEq)]
+#[derive(Clone, Debug, Encode, Decode, TypeInfo, PartialEq)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct SnapshotSummary {
     // Last synced blocknumber
     pub last_block: BlockNumber,

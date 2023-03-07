@@ -16,14 +16,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-use sp_std::fmt::{Display, Formatter};
 use codec::{Decode, Encode, MaxEncodedLen};
 use scale_info::TypeInfo;
+use serde::de::{Error, MapAccess, Unexpected, Visitor};
+#[cfg(feature = "std")]
+use serde::Deserializer;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize, Serializer};
-#[cfg(feature = "std")]
-use serde::ser::SerializeStruct;
 use sp_core::RuntimeDebug;
+use sp_std::fmt::{Display, Formatter};
+use std::str::FromStr;
 
 /// Enumerated asset on chain
 #[derive(
@@ -38,14 +40,74 @@ use sp_core::RuntimeDebug;
     PartialOrd,
     RuntimeDebug,
     TypeInfo,
-    MaxEncodedLen
+    MaxEncodedLen,
 )]
-#[cfg_attr(feature = "std", derive(Serialize,Deserialize))]
 pub enum AssetId {
     /// PDEX the native currency of the chain
     asset(u128),
     polkadex,
+}
 
+#[cfg(feature = "std")]
+impl Serialize for AssetId {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        match *self {
+            AssetId::asset(ref id) => {
+                serializer.serialize_newtype_variant("asset_id", 0, "asset", &id.to_string())
+            }
+            AssetId::polkadex => {
+                serializer.serialize_newtype_variant("asset_id", 1, "asset", "polkadex")
+            }
+        }
+    }
+}
+
+#[cfg(feature = "std")]
+impl<'de> Deserialize<'de> for AssetId {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        deserializer.deserialize_map(AssetId::polkadex)
+    }
+}
+
+impl<'de> Visitor<'de> for AssetId {
+    type Value = Self;
+
+    fn expecting(&self, formatter: &mut Formatter) -> std::fmt::Result {
+        formatter.write_str("expecting an asset id map in the for {\"asset\":\"123\"}")
+    }
+
+    fn visit_map<A>(self, mut access: A) -> Result<Self::Value, A::Error>
+    where
+        A: MapAccess<'de>,
+    {
+        // While there are entries remaining in the input, add them
+        // into our map.
+        while let Some((key, value)) = access.next_entry::<String, String>()? {
+            if key == String::from("asset") {
+                return if value == String::from("polkadex") {
+                    Ok(AssetId::polkadex)
+                } else {
+                    match u128::from_str(&value) {
+                        Err(_) => Err(A::Error::invalid_type(
+                            Unexpected::Unsigned(128),
+                            &"Expected an u128 string",
+                        )),
+                        Ok(id) => Ok(AssetId::asset(id)),
+                    }
+                };
+            }
+        }
+        Err(A::Error::invalid_type(
+            Unexpected::Enum,
+            &"Expected an asset id enum",
+        ))
+    }
 }
 
 #[cfg(feature = "std")]
@@ -59,7 +121,9 @@ impl TryFrom<String> for AssetId {
 
         match value.parse::<u128>() {
             Ok(id) => Ok(AssetId::asset(id)),
-            Err(_) => Err(anyhow::Error::msg::<String>(format!("Could not parse 'AssetId' from {}", value).into()))
+            Err(_) => Err(anyhow::Error::msg::<String>(
+                format!("Could not parse 'AssetId' from {}", value).into(),
+            )),
         }
     }
 }
@@ -68,8 +132,31 @@ impl TryFrom<String> for AssetId {
 impl Display for AssetId {
     fn fmt(&self, f: &mut Formatter<'_>) -> sp_std::fmt::Result {
         match self {
-            AssetId::polkadex => write!(f,"PDEX"),
-            AssetId::asset(id) => write!(f,"{:?}",id),
+            AssetId::polkadex => write!(f, "PDEX"),
+            AssetId::asset(id) => write!(f, "{:?}", id),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::AssetId;
+
+    #[test]
+    pub fn test_assetid_serde() {
+        let polkadex = AssetId::polkadex;
+        let asset_max = AssetId::asset(u128::MAX);
+
+        println!("{:?}", serde_json::to_string(&polkadex).unwrap());
+        println!("{:?}", serde_json::to_string(&asset_max).unwrap());
+
+        assert_eq!(
+            polkadex,
+            serde_json::from_str(&serde_json::to_string(&polkadex).unwrap()).unwrap()
+        );
+        assert_eq!(
+            asset_max,
+            serde_json::from_str(&serde_json::to_string(&asset_max).unwrap()).unwrap()
+        )
     }
 }

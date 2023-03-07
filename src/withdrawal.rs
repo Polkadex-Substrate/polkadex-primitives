@@ -3,10 +3,10 @@ use codec::{Decode, Encode, MaxEncodedLen};
 use rust_decimal::Decimal;
 use scale_info::TypeInfo;
 
+use crate::{AccountId, BlockNumber, Header};
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
 use sp_core::H256;
-use crate::{AccountId, BlockNumber, Header};
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
@@ -48,9 +48,9 @@ pub struct SnapshotSummary {
     pub withdrawals_processed: Withdrawals,
 }
 
-impl Default for SnapshotSummary{
+impl Default for SnapshotSummary {
     fn default() -> Self {
-        Self{
+        Self {
             last_block: 0,
             snapshot_number: 0,
             enclave_state_hash: Default::default(),
@@ -61,7 +61,10 @@ impl Default for SnapshotSummary{
                 extrinsics_root: Default::default(),
                 digest: Default::default(),
             },
-            withdrawals_processed: Withdrawals { withdrawals: sp_std::vec::Vec::new(), nonce: 0 },
+            withdrawals_processed: Withdrawals {
+                withdrawals: sp_std::vec::Vec::new(),
+                nonce: 0,
+            },
         }
     }
 }

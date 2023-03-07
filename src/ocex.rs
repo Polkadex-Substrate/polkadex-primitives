@@ -4,13 +4,13 @@ use frame_support::traits::Get;
 use frame_support::BoundedVec;
 use rust_decimal::Decimal;
 use scale_info::TypeInfo;
-use sp_std::collections::btree_map::BTreeMap;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
+use sp_std::collections::btree_map::BTreeMap;
 
 use crate::fees::FeeConfig;
-use crate::WithdrawalLimit;
 use crate::withdrawal::Withdrawal;
+use crate::WithdrawalLimit;
 
 #[derive(Clone, Encode, Decode, TypeInfo, Debug)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
@@ -21,9 +21,7 @@ pub struct AccountInfo<Account, ProxyLimit: Get<u32>> {
     /// Trading Fee config
     pub fee_config: FeeConfig,
 }
-impl<Account: PartialEq, ProxyLimit: Get<u32>>
-    AccountInfo<Account, ProxyLimit>
-{
+impl<Account: PartialEq, ProxyLimit: Get<u32>> AccountInfo<Account, ProxyLimit> {
     pub fn maker_fee_fraction(&self) -> Decimal {
         self.fee_config.maker_fraction.clone()
     }
@@ -32,9 +30,7 @@ impl<Account: PartialEq, ProxyLimit: Get<u32>>
     }
 }
 
-impl<Account: PartialEq, ProxyLimit: Get<u32>>
-    AccountInfo<Account, ProxyLimit>
-{
+impl<Account: PartialEq, ProxyLimit: Get<u32>> AccountInfo<Account, ProxyLimit> {
     pub fn new(main_account_id: Account) -> AccountInfo<Account, ProxyLimit> {
         let proxies = BoundedVec::default();
         AccountInfo {
@@ -75,24 +71,28 @@ pub struct TradingPairConfig {
     pub qty_step_size: Decimal,
     pub operational_status: bool, //will be true if the trading pair is enabled on the orderbook.
     pub base_asset_precision: u8,
-    pub quote_asset_precision: u8
+    pub quote_asset_precision: u8,
 }
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-pub enum OnChainEvents<AccountId>{
-	OrderBookWithdrawalClaimed(u32, AccountId, BoundedVec<Withdrawal<AccountId>, WithdrawalLimit>),
-    GetStorage(Pallet, StorageItem, u32)
+pub enum OnChainEvents<AccountId> {
+    OrderBookWithdrawalClaimed(
+        u32,
+        AccountId,
+        BoundedVec<Withdrawal<AccountId>, WithdrawalLimit>,
+    ),
+    GetStorage(Pallet, StorageItem, u32),
 }
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub enum Pallet {
-    OCEX
-} 
+    OCEX,
+}
 
 #[derive(Clone, Encode, Decode, MaxEncodedLen, TypeInfo, Debug, PartialEq)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-pub enum StorageItem{
-    Withdrawal
+pub enum StorageItem {
+    Withdrawal,
 }

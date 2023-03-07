@@ -1,10 +1,9 @@
+use codec::{Decode, Encode};
 use frame_support::traits::Get;
 use frame_support::BoundedVec;
-use codec::{Decode, Encode};
 use scale_info::TypeInfo;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
-
 
 #[derive(Clone, Encode, Decode, TypeInfo, Debug)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]

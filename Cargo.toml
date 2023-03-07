@@ -21,6 +21,7 @@ rust_decimal = {git ="https://github.com/Polkadex-Substrate/rust-decimal.git", b
 [dev-dependencies]
 sp-serializer = { default-features = false, git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.28" }
 pretty_assertions = "1.2.1"
+serde_json = { version = "1.0.94"}
 
 [features]
 default = ["std"]

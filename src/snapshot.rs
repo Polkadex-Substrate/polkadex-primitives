@@ -1,5 +1,4 @@
 use crate::ocex::AccountInfo;
-use crate::withdrawal::Withdrawal;
 use frame_support::BoundedVec;
 use sp_core::H256;
 use sp_std::collections::btree_map::BTreeMap;
@@ -11,6 +10,7 @@ use scale_info::TypeInfo;
 use crate::{AccountId, AssetId};
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
+use crate::withdrawal::Withdrawal;
 
 /// Provides maximum number of accounts possible in enclave data dump
 pub struct AccountInfoDumpLimit;

@@ -59,7 +59,7 @@ impl Serialize for AssetId {
                 serializer.serialize_newtype_variant("asset_id", 0, "asset", &id.to_string())
             }
             AssetId::polkadex => {
-                serializer.serialize_newtype_variant("asset_id", 1, "asset", "polkadex")
+                serializer.serialize_newtype_variant("asset_id", 1, "asset", "PDEX")
             }
         }
     }
@@ -90,7 +90,7 @@ impl<'de> Visitor<'de> for AssetId {
         // into our map.
         while let Some((key, value)) = access.next_entry::<String, String>()? {
             if key == String::from("asset") {
-                return if value == String::from("polkadex") {
+                return if value == String::from("PDEX") {
                     Ok(AssetId::polkadex)
                 } else {
                     match u128::from_str(&value) {

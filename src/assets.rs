@@ -88,13 +88,14 @@ impl<'de> Visitor<'de> for AssetId {
     {
         // While there are entries remaining in the input, add them
         // into our map.
-        while let Some((key, value)) = access.next_entry::<String, String>()? {
+        while let Some((key, mut value)) = access.next_entry::<String, String>()? {
             if key == String::from("asset") {
                 return if value == String::from("PDEX") {
                     Ok(AssetId::polkadex)
                 } else {
                     // Check if its hex or not
                     let radix = if value.contains("0x"){
+                        value = value.replace("0x","");
                         16
                     }else{
                         10

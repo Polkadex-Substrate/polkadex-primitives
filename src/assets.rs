@@ -93,7 +93,13 @@ impl<'de> Visitor<'de> for AssetId {
                 return if value == String::from("PDEX") {
                     Ok(AssetId::polkadex)
                 } else {
-                    match u128::from_str(&value) {
+                    // Check if its hex or not
+                    let radix = if value.contains("0x"){
+                        16
+                    }else{
+                        10
+                    };
+                    match u128::from_str_radix(&value,radix) {
                         Err(_) => Err(A::Error::invalid_type(
                             Unexpected::Unsigned(128),
                             &format!("Expected an u128 string: recv {:?}",value).as_str(),

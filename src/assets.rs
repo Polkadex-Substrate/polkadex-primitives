@@ -96,7 +96,7 @@ impl<'de> Visitor<'de> for AssetId {
                     match u128::from_str(&value) {
                         Err(_) => Err(A::Error::invalid_type(
                             Unexpected::Unsigned(128),
-                            &"Expected an u128 string",
+                            &format!("Expected an u128 string: recv {:?}",value).as_str(),
                         )),
                         Ok(id) => Ok(AssetId::asset(id)),
                     }
